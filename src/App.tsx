@@ -19,6 +19,21 @@ import {
   AccordionRoot,
 } from "@/components/ui/accordion"
 import { LuPhone, LuMail, LuMapPin, LuClock, LuHouse } from "react-icons/lu"
+import { motion } from "framer-motion"
+
+const MotionBox = motion(Box)
+const MotionFlex = motion(Flex)
+const MotionStack = motion(VStack)
+const MotionButton = motion(Button)
+
+const scrollVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" }
+  }
+}
 
 const OLIVE = "#6B7A4E"
 const OLIVE_DARK = "#4F5C37"
@@ -31,52 +46,62 @@ const TEXT_MID = "#5A5450"
 function Logo({ light = false }: { light?: boolean }) {
   return (
     <HStack gap="2" align="center">
-      <Box
-        w="8"
-        h="8"
-        bg={light ? "whiteAlpha.200" : OLIVE}
-        rounded="sm"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        flexShrink={0}
-      >
-        <Icon color="white" fontSize="md">
-          <LuHouse />
-        </Icon>
-      </Box>
-      <VStack gap="0" align="start">
-        <Text
-          fontSize="2xs"
-          fontWeight="bold"
-          letterSpacing="wider"
-          color={light ? OLIVE_LIGHT : OLIVE_DARK}
-          lineHeight="1"
-          textTransform="uppercase"
-        >
-          The
-        </Text>
-        <Text
-          fontSize="xs"
-          fontWeight="black"
-          letterSpacing="wider"
-          color={light ? "white" : TEXT_DARK}
-          lineHeight="1"
-          textTransform="uppercase"
-        >
-          Teacher
-        </Text>
-        <Text
-          fontSize="2xs"
-          fontWeight="semibold"
-          letterSpacing="widest"
-          color={light ? "gray.400" : TEXT_MID}
-          lineHeight="1"
-          textTransform="uppercase"
-        >
-          Neighbor
-        </Text>
-      </VStack>
+      <Image
+        src="/logo.png"
+        alt="The Teacher Neighbor Logo"
+        h={{ base: "12", md: "32" }}
+        objectFit="contain"
+        fallback={
+          <HStack gap="2" align="center">
+            <Box
+              w="8"
+              h="8"
+              bg={light ? "whiteAlpha.200" : OLIVE}
+              rounded="sm"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              flexShrink={0}
+            >
+              <Icon color="white" fontSize="md">
+                <LuHouse />
+              </Icon>
+            </Box>
+            <VStack gap="0" align="start">
+              <Text
+                fontSize="2xs"
+                fontWeight="bold"
+                letterSpacing="wider"
+                color={light ? OLIVE_LIGHT : OLIVE_DARK}
+                lineHeight="1"
+                textTransform="uppercase"
+              >
+                The
+              </Text>
+              <Text
+                fontSize="xs"
+                fontWeight="black"
+                letterSpacing="wider"
+                color={light ? "white" : TEXT_DARK}
+                lineHeight="1"
+                textTransform="uppercase"
+              >
+                Teacher
+              </Text>
+              <Text
+                fontSize="2xs"
+                fontWeight="semibold"
+                letterSpacing="widest"
+                color={light ? "gray.400" : TEXT_MID}
+                lineHeight="1"
+                textTransform="uppercase"
+              >
+                Neighbor
+              </Text>
+            </VStack>
+          </HStack>
+        }
+      />
     </HStack>
   )
 }
@@ -136,7 +161,8 @@ function HeroSection() {
             providing resources to help them feel confident every step of the way.
           </Text>
           <Box>
-            <Button
+          <Box>
+            <MotionButton
               bg={OLIVE}
               color="white"
               size="lg"
@@ -145,10 +171,17 @@ function HeroSection() {
               fontWeight="semibold"
               fontSize="sm"
               letterSpacing="wide"
-              _hover={{ bg: OLIVE_DARK }}
+              whileHover={{ 
+                scale: 1.05,
+                backgroundColor: OLIVE_DARK,
+                boxShadow: "0px 10px 20px rgba(107, 122, 78, 0.3)"
+              }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
               Sign up for more information
-            </Button>
+            </MotionButton>
+          </Box>
           </Box>
         </Box>
         <Box
@@ -760,7 +793,7 @@ function LetsTalkSection() {
                 </HStack>
               ))}
             </VStack>
-            <Button
+            <MotionButton
               bg={OLIVE}
               color="white"
               size="lg"
@@ -769,11 +802,17 @@ function LetsTalkSection() {
               fontWeight="semibold"
               fontSize="sm"
               letterSpacing="wide"
-              _hover={{ bg: OLIVE_DARK }}
+              whileHover={{ 
+                scale: 1.05,
+                backgroundColor: OLIVE_DARK,
+                boxShadow: "0px 10px 20px rgba(107, 122, 78, 0.3)"
+              }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 10 }}
               mt="2"
             >
               Schedule by appointment
-            </Button>
+            </MotionButton>
           </VStack>
           <Box>
             <Image
@@ -818,15 +857,86 @@ function Footer() {
 function App() {
   return (
     <Box bg={CREAM}>
-      <HeroSection />
-      <ProgramIntroSection />
-      <MeetUsSection />
-      <WhatIsSection />
-      <CommunityBenefitSection />
-      <WhoIsItForSection />
-      <QASection />
-      <HappyClientsSection />
-      <LetsTalkSection />
+      <MotionBox
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={scrollVariants}
+      >
+        <HeroSection />
+      </MotionBox>
+
+      <MotionBox
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={scrollVariants}
+      >
+        <ProgramIntroSection />
+      </MotionBox>
+
+      <MotionBox
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={scrollVariants}
+      >
+        <MeetUsSection />
+      </MotionBox>
+
+      <MotionBox
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={scrollVariants}
+      >
+        <WhatIsSection />
+      </MotionBox>
+
+      <MotionBox
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={scrollVariants}
+      >
+        <CommunityBenefitSection />
+      </MotionBox>
+
+      <MotionBox
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={scrollVariants}
+      >
+        <WhoIsItForSection />
+      </MotionBox>
+
+      <MotionBox
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={scrollVariants}
+      >
+        <QASection />
+      </MotionBox>
+
+      <MotionBox
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={scrollVariants}
+      >
+        <HappyClientsSection />
+      </MotionBox>
+
+      <MotionBox
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={scrollVariants}
+      >
+        <LetsTalkSection />
+      </MotionBox>
       <Footer />
     </Box>
   )
